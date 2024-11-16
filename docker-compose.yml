@@ -5,3 +5,40 @@ services:
       - "8080:8080"
     volumes:
       - ./docs:/usr/local/structurizr
+
+  patient-service:
+    build: 
+      context: .
+      dockerfile: PatientService/Dockerfile
+    ports:
+      - "6000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=BloodPressureTracker;User=root;Password=password;
+    depends_on:
+      - db
+
+  measurement-service:
+    build: 
+      context: .
+      dockerfile: MeasurementService/Dockerfile
+    ports:
+      - "6001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=BloodPressureTracker;User=root;Password=password;
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: BloodPressureTracker
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
