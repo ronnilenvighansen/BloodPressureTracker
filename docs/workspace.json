@@ -3,8 +3,7 @@
   "description" : "Description",
   "documentation" : { },
   "id" : 1,
-  "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2024-11-17T12:00:19Z",
+  "lastModifiedDate" : "2024-11-18T19:29:49Z",
   "model" : {
     "people" : [ {
       "description" : "A patient who enters blood pressure measurements",
@@ -316,7 +315,7 @@
   "views" : {
     "componentViews" : [ {
       "automaticLayout" : {
-        "applied" : true,
+        "applied" : false,
         "edgeSeparation" : 0,
         "implementation" : "Graphviz",
         "nodeSeparation" : 300,
@@ -325,30 +324,26 @@
         "vertices" : false
       },
       "containerId" : "6",
-      "dimensions" : {
-        "height" : 1300,
-        "width" : 3100
-      },
       "elements" : [ {
         "id" : "4",
-        "x" : 2449,
-        "y" : 500
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "5",
-        "x" : 199,
-        "y" : 200
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "7",
-        "x" : 949,
-        "y" : 500
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "8",
-        "x" : 1699,
-        "y" : 500
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "12",
-        "x" : 199,
-        "y" : 800
+        "x" : 0,
+        "y" : 0
       } ],
       "externalContainerBoundariesVisible" : false,
       "key" : "PatientService",
@@ -364,7 +359,7 @@
       } ]
     }, {
       "automaticLayout" : {
-        "applied" : true,
+        "applied" : false,
         "edgeSeparation" : 0,
         "implementation" : "Graphviz",
         "nodeSeparation" : 300,
@@ -373,30 +368,26 @@
         "vertices" : false
       },
       "containerId" : "13",
-      "dimensions" : {
-        "height" : 1300,
-        "width" : 3100
-      },
       "elements" : [ {
         "id" : "4",
-        "x" : 2449,
-        "y" : 500
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "5",
-        "x" : 199,
-        "y" : 200
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "12",
-        "x" : 199,
-        "y" : 800
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "14",
-        "x" : 949,
-        "y" : 500
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "15",
-        "x" : 1699,
-        "y" : 500
+        "x" : 0,
+        "y" : 0
       } ],
       "externalContainerBoundariesVisible" : false,
       "key" : "MeasurementService",
@@ -414,7 +405,6 @@
     "configuration" : {
       "branding" : { },
       "lastSavedView" : "PatientService",
-      "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
           "color" : "#ffffff",
@@ -447,7 +437,7 @@
     },
     "containerViews" : [ {
       "automaticLayout" : {
-        "applied" : true,
+        "applied" : false,
         "edgeSeparation" : 0,
         "implementation" : "Graphviz",
         "nodeSeparation" : 300,
@@ -455,38 +445,34 @@
         "rankSeparation" : 300,
         "vertices" : false
       },
-      "dimensions" : {
-        "height" : 1500,
-        "width" : 3070
-      },
       "elements" : [ {
         "id" : "1",
-        "x" : 199,
-        "y" : 200
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "2",
-        "x" : 199,
-        "y" : 900
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "4",
-        "x" : 2399,
-        "y" : 600
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "5",
-        "x" : 899,
-        "y" : 300
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "6",
-        "x" : 1649,
-        "y" : 300
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "12",
-        "x" : 899,
-        "y" : 900
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "13",
-        "x" : 1649,
-        "y" : 900
+        "x" : 0,
+        "y" : 0
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "BloodPressureSystem",
@@ -512,7 +498,7 @@
     } ],
     "systemContextViews" : [ {
       "automaticLayout" : {
-        "applied" : true,
+        "applied" : false,
         "edgeSeparation" : 0,
         "implementation" : "Graphviz",
         "nodeSeparation" : 300,
@@ -520,22 +506,18 @@
         "rankSeparation" : 300,
         "vertices" : false
       },
-      "dimensions" : {
-        "height" : 1500,
-        "width" : 1550
-      },
       "elements" : [ {
         "id" : "1",
-        "x" : 199,
-        "y" : 200
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "2",
-        "x" : 199,
-        "y" : 900
+        "x" : 0,
+        "y" : 0
       }, {
         "id" : "3",
-        "x" : 899,
-        "y" : 600
+        "x" : 0,
+        "y" : 0
       } ],
       "enterpriseBoundaryVisible" : true,
       "key" : "SystemContext",

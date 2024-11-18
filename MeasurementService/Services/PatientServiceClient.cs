@@ -1,4 +1,4 @@
-using PatientService.Models;
+using Shared.Models.Patient;
 using System.Text.Json;
 
 public class PatientServiceClient
@@ -20,7 +20,7 @@ public class PatientServiceClient
             return patient;
         }
 
-        return null; // Patient not found or some other error
+        return null;
     }
 
     private async Task<T> ReadAsJsonAsync<T>(HttpResponseMessage response)

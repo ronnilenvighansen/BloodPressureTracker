@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MeasurementService.Models;
-using PatientService.Models;
+using Shared.Models.Measurement;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -44,21 +43,20 @@ public class MeasurementController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMeasurement(int id, [FromBody] Measurement updatedMeasurement)
+    public async Task<IActionResult> UpdateMeasurement(int id, Measurement updatedMeasurement)
     {
         if (id != updatedMeasurement.Id)
-        {
-            return BadRequest("ID in the URL and body do not match.");
-        }
+            return BadRequest("ID mismatch.");
 
-        var existingMeasurement = await _repository.GetMeasurementByIdAsync(id); // Fetch a single measurement
-        if (existingMeasurement == null)
+        try
         {
-            return NotFound();
+            await _repository.UpdateMeasurementAsync(updatedMeasurement);
+            return NoContent();
         }
-
-        await _repository.UpdateMeasurementAsync(updatedMeasurement);
-        return NoContent();
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 
 

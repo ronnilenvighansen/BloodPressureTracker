@@ -431,28 +431,13 @@
           "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
-      "PatientService/1.0.0": {
+      "Shared/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.35",
-          "Pomelo.EntityFrameworkCore.MySql": "6.0.3",
-          "Shared": "1.0.0",
-          "Swashbuckle.AspNetCore": "6.5.0"
+          "Pomelo.EntityFrameworkCore.MySql": "6.0.3"
         },
-        "compile": {
-          "bin/placeholder/PatientService.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/PatientService.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
-      "Shared/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
         "compile": {
           "bin/placeholder/Shared.dll": {}
         },
@@ -1231,11 +1216,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "PatientService/1.0.0": {
-      "type": "project",
-      "path": "../PatientService/PatientService.csproj",
-      "msbuildProject": "../PatientService/PatientService.csproj"
-    },
     "Shared/1.0.0": {
       "type": "project",
       "path": "../Shared/Shared.csproj",
@@ -1246,7 +1226,6 @@
     "net6.0": [
       "Microsoft.EntityFrameworkCore >= 6.0.35",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.35",
-      "PatientService >= 1.0.0",
       "Pomelo.EntityFrameworkCore.MySql >= 6.0.3",
       "Shared >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
@@ -1277,9 +1256,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/PatientService/PatientService.csproj": {
-              "projectPath": "/Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/PatientService/PatientService.csproj"
-            },
             "/Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/Shared/Shared.csproj": {
               "projectPath": "/Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/Shared/Shared.csproj"
             }

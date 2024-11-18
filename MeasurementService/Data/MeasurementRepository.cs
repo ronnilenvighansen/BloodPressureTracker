@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using MeasurementService.Data;
-using MeasurementService.Models;
+using Shared.Data;
+using Shared.Models.Measurement;
 
 public class MeasurementRepository
 {
-    private readonly MeasurementDbContext _context;
+    private readonly SharedDbContext _context;
 
-    public MeasurementRepository(MeasurementDbContext context)
+    public MeasurementRepository(SharedDbContext context)
     {
         _context = context;
     }
@@ -23,9 +23,8 @@ public class MeasurementRepository
 
     public async Task<Measurement> GetMeasurementByIdAsync(int id)
     {
-        // Retrieve the measurement without tracking it for update operations
         var measurement = await _context.Measurements
-            .AsNoTracking()  // Ensure no tracking for this query
+            .AsNoTracking()
             .FirstOrDefaultAsync(m => m.Id == id);
         
         return measurement;
@@ -39,30 +38,18 @@ public class MeasurementRepository
 
     public async Task UpdateMeasurementAsync(Measurement updatedMeasurement)
     {
-        // Check if the measurement exists in the database
-        var existingMeasurement = await _context.Measurements
-            .FirstOrDefaultAsync(m => m.Id == updatedMeasurement.Id);
-
-        if (existingMeasurement == null)
+        var existingEntity = _context.ChangeTracker.Entries<Measurement>()
+                                    .FirstOrDefault(e => e.Entity.Id == updatedMeasurement.Id);
+        if (existingEntity != null)
         {
-            throw new KeyNotFoundException("Measurement not found.");
+            _context.Entry(existingEntity.Entity).State = EntityState.Detached;
         }
 
-        // Attach the updated entity and mark it as modified
-        var entry = _context.Entry(updatedMeasurement);
-        
-        if (entry.State == EntityState.Detached)
-        {
-            // If the entity is not being tracked, attach it
-            _context.Measurements.Attach(updatedMeasurement);
-        }
-        
-        // Ensure the state is marked as modified so EF Core knows to update it
-        entry.State = EntityState.Modified;
+        _context.Measurements.Attach(updatedMeasurement);
+        _context.Entry(updatedMeasurement).State = EntityState.Modified;
 
         await _context.SaveChangesAsync();
     }
-
 
     public async Task DeleteMeasurementAsync(int id)
     {

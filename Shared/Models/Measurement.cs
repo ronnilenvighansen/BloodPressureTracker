@@ -1,4 +1,4 @@
-namespace MeasurementService.Models;
+namespace Shared.Models.Measurement;
 public class Measurement
 {
     public int Id { get; set; }
