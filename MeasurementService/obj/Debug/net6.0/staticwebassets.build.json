@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "ly8iardcbz68qBrWdlEbYx75NQGJGl6qAD0kearFhU4=",
+  "Source": "MeasurementService",
+  "BasePath": "_content/MeasurementService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/PatientService/PatientService.csproj",
+      "Version": 2,
+      "Source": "PatientService",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

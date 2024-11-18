@@ -13,10 +13,12 @@ services:
     ports:
       - "6000:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=db;Database=BloodPressureTracker;User=root;Password=password;
+      - ConnectionStrings__DefaultConnection=Server=db;Database=BloodPressureTracker;User=root;Password=password
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - backend
 
   measurement-service:
     build: 
@@ -25,10 +27,13 @@ services:
     ports:
       - "6001:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=db;Database=BloodPressureTracker;User=root;Password=password;
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db;Database=BloodPressureTracker;User=root;Password=password
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - backend
 
   db:
     image: mysql:8.0
@@ -39,6 +44,17 @@ services:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 volumes:
   db-data:
+
+networks:
+  backend:
+    driver: bridge

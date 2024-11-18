@@ -1,3 +1,4 @@
+namespace MeasurementService.Models;
 public class Measurement
 {
     public int Id { get; set; }

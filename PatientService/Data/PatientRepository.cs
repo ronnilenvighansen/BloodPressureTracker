@@ -1,10 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using PatientService.Data;
+using PatientService.Models;
+
 public class PatientRepository
 {
-    private readonly DbContext _context;
+    private readonly PatientDbContext _context;
 
-    public PatientRepository(DbContext context)
+    public PatientRepository(PatientDbContext context)
     {
         _context = context;
+    }
+
+    public async Task<IEnumerable<Patient>> GetAllPatientsAsync()
+    {
+        return await _context.Patients.ToListAsync();
+    }
+    
+    public async Task<Patient?> GetPatientAsync(string ssn)
+    {
+        return await _context.Patients.FindAsync(ssn);
     }
 
     public async Task AddPatientAsync(Patient patient)
@@ -13,8 +27,27 @@ public class PatientRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Patient?> GetPatientAsync(string ssn)
+    public async Task UpdatePatientAsync(Patient updatedPatient)
     {
-        return await _context.Patients.FindAsync(ssn);
+        var existingPatient = await _context.Patients
+            .FirstOrDefaultAsync(p => p.SSN == updatedPatient.SSN);
+
+        if (existingPatient != null)
+        {
+            _context.Entry(existingPatient).State = EntityState.Detached;
+
+            _context.Patients.Update(updatedPatient);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task DeletePatientAsync(string ssn)
+    {
+        var patient = await GetPatientAsync(ssn);
+        if (patient != null)
+        {
+            _context.Patients.Remove(patient);
+            await _context.SaveChangesAsync();
+        }
     }
 }
