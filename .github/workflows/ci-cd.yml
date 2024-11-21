@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,14 +25,23 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build project
+    - name: Build solution
       run: dotnet build --configuration Release
 
-    - name: Publish Docker image
+    - name: Publish PatientService Docker image
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        docker build -t your-dockerhub-username/patient-service .
-  
+        docker build -t "$DOCKER_USERNAME/patient-service" -f PatientService/Dockerfile .
+        docker push "$DOCKER_USERNAME/patient-service"
+
+    - name: Publish MeasurementService Docker image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker build -t "$DOCKER_USERNAME/measurement-service" -f MeasurementService/Dockerfile .
+        docker push "$DOCKER_USERNAME/measurement-service"
