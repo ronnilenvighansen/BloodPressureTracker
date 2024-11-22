@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "xmQiQy6Ou3E=",
+  "dgSpecHash": "ub1bPNDpow0=",
   "success": true,
   "projectFilePath": "/Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/PatientService/PatientService.csproj",
   "expectedPackageFiles": [
     "/Users/ronnihansen/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
+    "/Users/ronnihansen/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/microsoft.entityframeworkcore/6.0.35/microsoft.entityframeworkcore.6.0.35.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/microsoft.entityframeworkcore.abstractions/6.0.35/microsoft.entityframeworkcore.abstractions.6.0.35.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/microsoft.entityframeworkcore.analyzers/6.0.35/microsoft.entityframeworkcore.analyzers.6.0.35.nupkg.sha512",
@@ -21,7 +22,9 @@
     "/Users/ronnihansen/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/Users/ronnihansen/.nuget/packages/murmurhash/1.0.3/murmurhash.1.0.3.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/mysqlconnector/2.1.2/mysqlconnector.2.1.2.nupkg.sha512",
+    "/Users/ronnihansen/.nuget/packages/nuget.versioning/6.1.0/nuget.versioning.6.1.0.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/pipelines.sockets.unofficial/2.2.8/pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/pomelo.entityframeworkcore.mysql/6.0.3/pomelo.entityframeworkcore.mysql.6.0.3.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/stackexchange.redis/2.8.16/stackexchange.redis.2.8.16.nupkg.sha512",
@@ -32,7 +35,8 @@
     "/Users/ronnihansen/.nuget/packages/system.collections.immutable/6.0.0/system.collections.immutable.6.0.0.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/system.diagnostics.diagnosticsource/6.0.1/system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
     "/Users/ronnihansen/.nuget/packages/system.io.pipelines/5.0.1/system.io.pipelines.5.0.1.nupkg.sha512",
-    "/Users/ronnihansen/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    "/Users/ronnihansen/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "/Users/ronnihansen/.nuget/packages/unleash.client/4.0.0/unleash.client.4.0.0.nupkg.sha512"
   ],
   "logs": []
 }

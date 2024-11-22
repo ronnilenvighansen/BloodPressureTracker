@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models.Measurement;
+using Unleash;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -7,16 +8,26 @@ public class MeasurementController : ControllerBase
 {
     private readonly MeasurementRepository _repository;
     private readonly PatientServiceClient _patientServiceClient;
+    private readonly IUnleash _unleash;
 
-    public MeasurementController(MeasurementRepository repository, PatientServiceClient patientServiceClient)
+    public MeasurementController(
+        MeasurementRepository repository, 
+        PatientServiceClient patientServiceClient, 
+        IUnleash unleash)
     {
         _repository = repository;
         _patientServiceClient = patientServiceClient;
+        _unleash = unleash;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Measurement>>> GetAllMeasurements()
     {
+        if (!_unleash.IsEnabled("measurement-service.get-all"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         var measurements = await _repository.GetAllMeasurementsAsync();
         return Ok(measurements);
     }
@@ -24,6 +35,11 @@ public class MeasurementController : ControllerBase
     [HttpGet("{ssn}")]
     public async Task<IActionResult> GetMeasurementsByPatient(string ssn)
     {
+        if (!_unleash.IsEnabled("measurement-service.get-by-patient"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         var measurements = await _repository.GetMeasurementsByPatientAsync(ssn);
         return Ok(measurements);
     }
@@ -31,6 +47,11 @@ public class MeasurementController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddMeasurement([FromBody] Measurement measurement)
     {
+        if (!_unleash.IsEnabled("measurement-service.add"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         var patient = await _patientServiceClient.GetPatientBySSNAsync(measurement.PatientSSN);
 
         if (patient == null)
@@ -45,6 +66,11 @@ public class MeasurementController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMeasurement(int id, Measurement updatedMeasurement)
     {
+        if (!_unleash.IsEnabled("measurement-service.update"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         if (id != updatedMeasurement.Id)
             return BadRequest("ID mismatch.");
 
@@ -59,10 +85,14 @@ public class MeasurementController : ControllerBase
         }
     }
 
-
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMeasurement(int id)
     {
+        if (!_unleash.IsEnabled("measurement-service.delete"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         var existingMeasurement = await _repository.GetAllMeasurementsAsync();
         if (existingMeasurement == null)
         {

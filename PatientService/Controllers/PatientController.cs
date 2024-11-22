@@ -1,15 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models.Patient;
+using Unleash;
 
 [ApiController]
 [Route("api/[controller]")]
 public class PatientController : ControllerBase
 {
     private readonly PatientRepository _repository;
+    private readonly IUnleash _unleash;
 
-    public PatientController(PatientRepository repository)
+    public PatientController(PatientRepository repository, IUnleash unleash)
     {
         _repository = repository;
+        _unleash = unleash;
     }
 
     [HttpGet]
@@ -22,6 +25,11 @@ public class PatientController : ControllerBase
     [HttpGet("{ssn}")]
     public async Task<IActionResult> GetPatient(string ssn)
     {
+        if (!_unleash.IsEnabled("patient-service.get-patient"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         var patient = await _repository.GetPatientAsync(ssn);
         return patient == null ? NotFound() : Ok(patient);
     }
@@ -29,6 +37,11 @@ public class PatientController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddPatient([FromBody] Patient patient)
     {
+        if (!_unleash.IsEnabled("patient-service.add-patient"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         await _repository.AddPatientAsync(patient);
         return CreatedAtAction(nameof(GetPatient), new { ssn = patient.SSN }, patient);
     }
@@ -36,6 +49,11 @@ public class PatientController : ControllerBase
     [HttpPut("{ssn}")]
     public async Task<IActionResult> UpdatePatient(string ssn, [FromBody] Patient updatedPatient)
     {
+        if (!_unleash.IsEnabled("patient-service.update-patient"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         if (ssn != updatedPatient.SSN)
         {
             return BadRequest("SSN in the URL and body do not match.");
@@ -54,6 +72,11 @@ public class PatientController : ControllerBase
     [HttpDelete("{ssn}")]
     public async Task<IActionResult> DeletePatient(string ssn)
     {
+        if (!_unleash.IsEnabled("patient-service.delete-patient"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+
         var existingPatient = await _repository.GetPatientAsync(ssn);
         if (existingPatient == null)
         {

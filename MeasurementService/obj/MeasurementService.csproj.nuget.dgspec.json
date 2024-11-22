@@ -64,6 +64,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "Unleash.Client": {
+              "target": "Package",
+              "version": "[4.0.0, )"
             }
           },
           "imports": [

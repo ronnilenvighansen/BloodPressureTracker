@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shared.Data;
 using StackExchange.Redis;
+using Unleash;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,30 @@ builder.Services.AddDbContext<SharedDbContext>(options =>
 );
 
 builder.Services.AddScoped<PatientRepository>();
+
+var unleashUrl = builder.Configuration["UNLEASH_URL"];
+var unleashApiToken = builder.Configuration["UNLEASH_API_TOKEN"];
+
+// Configure Unleash settings
+var settings = new UnleashSettings()
+{
+    AppName = "patient-service",
+    UnleashApi = new Uri(unleashUrl), // Replace with your Unleash server URL
+    CustomHttpHeaders = new Dictionary<string, string>
+    {
+        { "Authorization", unleashApiToken } // Replace with your API token
+    }
+};
+
+// Create an instance of DefaultUnleash
+var unleash = new DefaultUnleash(settings);
+
+// Register DefaultUnleash as a singleton service
+builder.Services.AddSingleton<IUnleash>(unleash);
+
+// Example of checking feature toggles
+bool isFeatureEnabled = unleash.IsEnabled("patient-service.get-all", false); // Fallback to false
+bool isAnotherFeatureEnabled = unleash.IsEnabled("patient-service.get-by-ssn", true); // Fallback to true
 
 builder.Services.AddControllers();
 
