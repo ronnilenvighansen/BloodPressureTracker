@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Shared.Data;
-using Shared.Models.Measurement;
+using MeasurementService.Data;
+using MeasurementService.Models;
 
 public class MeasurementRepository
 {
-    private readonly SharedDbContext _context;
+    private readonly MeasurementDbContext _context;
 
-    public MeasurementRepository(SharedDbContext context)
+    public MeasurementRepository(MeasurementDbContext context)
     {
         _context = context;
     }
@@ -16,19 +16,12 @@ public class MeasurementRepository
         return await _context.Measurements.ToListAsync();
     }
 
-    public async Task<IEnumerable<Measurement>> GetMeasurementsByPatientAsync(string patientSSN)
-    {
-        return await _context.Measurements.Where(m => m.PatientSSN == patientSSN).ToListAsync();
-    }
-
     public async Task<Measurement> GetMeasurementByIdAsync(int id)
     {
-        var measurement = await _context.Measurements
-            .AsNoTracking()
+        return await _context.Measurements
             .FirstOrDefaultAsync(m => m.Id == id);
-        
-        return measurement;
     }
+
 
     public async Task AddMeasurementAsync(Measurement measurement)
     {

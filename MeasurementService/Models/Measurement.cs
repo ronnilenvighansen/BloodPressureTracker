@@ -1,4 +1,4 @@
-namespace Shared.Models.Measurement;
+namespace MeasurementService.Models;
 public class Measurement
 {
     public int Id { get; set; }
@@ -6,5 +6,4 @@ public class Measurement
     public int Systolic { get; set; }
     public int Diastolic { get; set; }
     public bool Seen { get; set; }
-    public string PatientSSN { get; set; }
 }

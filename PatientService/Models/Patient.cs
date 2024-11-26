@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Shared.Models.Patient;
+namespace PatientService.Models;
 public class Patient
 {
     [Key]

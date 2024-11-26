@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Shared.Migrations
+namespace MeasurementService.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -22,30 +22,11 @@ namespace Shared.Migrations
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Systolic = table.Column<int>(type: "int", nullable: false),
                     Diastolic = table.Column<int>(type: "int", nullable: false),
-                    Seen = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PatientSSN = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Seen = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Measurements", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Patients",
-                columns: table => new
-                {
-                    SSN = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Mail = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Patients", x => x.SSN);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
         }
@@ -54,9 +35,6 @@ namespace Shared.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Measurements");
-
-            migrationBuilder.DropTable(
-                name: "Patients");
         }
     }
 }

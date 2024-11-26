@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Shared.Models.Measurement;
+using MeasurementService.Models;
 using Unleash;
 
 [ApiController]
@@ -7,16 +7,13 @@ using Unleash;
 public class MeasurementController : ControllerBase
 {
     private readonly MeasurementRepository _repository;
-    private readonly PatientServiceClient _patientServiceClient;
     private readonly IUnleash _unleash;
 
     public MeasurementController(
         MeasurementRepository repository, 
-        PatientServiceClient patientServiceClient, 
         IUnleash unleash)
     {
         _repository = repository;
-        _patientServiceClient = patientServiceClient;
         _unleash = unleash;
     }
 
@@ -32,16 +29,21 @@ public class MeasurementController : ControllerBase
         return Ok(measurements);
     }
 
-    [HttpGet("{ssn}")]
-    public async Task<IActionResult> GetMeasurementsByPatient(string ssn)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetMeasurement(int id)
     {
-        if (!_unleash.IsEnabled("measurement-service.get-by-patient"))
+        if (!_unleash.IsEnabled("measurement-service.get-by-id"))
         {
             return StatusCode(503, "Feature disabled.");
         }
 
-        var measurements = await _repository.GetMeasurementsByPatientAsync(ssn);
-        return Ok(measurements);
+        var measurement = await _repository.GetMeasurementByIdAsync(id);
+        if (measurement == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(measurement);
     }
 
     [HttpPost]
@@ -52,16 +54,10 @@ public class MeasurementController : ControllerBase
             return StatusCode(503, "Feature disabled.");
         }
 
-        var patient = await _patientServiceClient.GetPatientBySSNAsync(measurement.PatientSSN);
-
-        if (patient == null)
-        {
-            return NotFound("Patient not found");
-        }
-
         await _repository.AddMeasurementAsync(measurement);
-        return CreatedAtAction(nameof(GetMeasurementsByPatient), new { ssn = measurement.PatientSSN }, measurement);
+        return CreatedAtAction(nameof(GetMeasurement), new { id = measurement.Id }, measurement);
     }
+
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMeasurement(int id, Measurement updatedMeasurement)

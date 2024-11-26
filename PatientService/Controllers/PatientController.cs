@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Shared.Models.Patient;
+using PatientService.Models;
 using Unleash;
 
 [ApiController]
@@ -18,6 +18,11 @@ public class PatientController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Patient>>> GetAllPatients()
     {
+        if (!_unleash.IsEnabled("patient-service.get-all-patients"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+        
         var patients = await _repository.GetAllPatientsAsync();
         return Ok(patients);
     }

@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Shared.Data;
-using Shared.Models.Patient;
+using PatientService.Models;
+using PatientService.Data;
 
 public class PatientRepository
 {
-    private readonly SharedDbContext _context;
+    private readonly PatientDbContext _context;
 
-    public PatientRepository(SharedDbContext context)
+    public PatientRepository(PatientDbContext context)
     {
         _context = context;
     }
