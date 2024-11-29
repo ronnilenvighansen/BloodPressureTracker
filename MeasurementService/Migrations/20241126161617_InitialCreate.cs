@@ -22,7 +22,9 @@ namespace MeasurementService.Migrations
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Systolic = table.Column<int>(type: "int", nullable: false),
                     Diastolic = table.Column<int>(type: "int", nullable: false),
-                    Seen = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Seen = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PatientSSN = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

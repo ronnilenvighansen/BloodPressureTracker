@@ -22,13 +22,12 @@ public class MeasurementRepository
             .FirstOrDefaultAsync(m => m.Id == id);
     }
 
-
     public async Task AddMeasurementAsync(Measurement measurement)
     {
         _context.Measurements.Add(measurement);
         await _context.SaveChangesAsync();
     }
-
+//check redundancy put method
     public async Task UpdateMeasurementAsync(Measurement updatedMeasurement)
     {
         var existingEntity = _context.ChangeTracker.Entries<Measurement>()

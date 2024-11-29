@@ -38,9 +38,25 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<PatientDbContext>();
-    context.Database.Migrate();
-}
 
+    try
+    {
+        // Check if migrations are needed
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            context.Database.Migrate();
+            Console.WriteLine("Migrations applied successfully.");
+        }
+        else
+        {
+            Console.WriteLine("No pending migrations.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred while applying migrations: {ex.Message}");
+    }
+}
 
 app.UseAuthorization();
 app.MapControllers();

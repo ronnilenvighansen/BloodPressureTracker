@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeasurementService.Migrations
 {
     [DbContext(typeof(MeasurementDbContext))]
-    [Migration("20241125203430_InitialCreate")]
+    [Migration("20241126161617_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,10 @@ namespace MeasurementService.Migrations
 
                     b.Property<int>("Diastolic")
                         .HasColumnType("int");
+
+                    b.Property<string>("PatientSSN")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("Seen")
                         .HasColumnType("tinyint(1)");

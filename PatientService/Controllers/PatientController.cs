@@ -39,6 +39,27 @@ public class PatientController : ControllerBase
         return patient == null ? NotFound() : Ok(patient);
     }
 
+    [HttpGet("validate-ssn/{ssn}")]
+    public async Task<IActionResult> ValidateSSN(string ssn)
+    {
+        // Log input SSN
+        Console.WriteLine($"Validating SSN: {ssn}");
+
+        // Check if the SSN exists in the repository
+        var patient = await _repository.GetPatientAsync(ssn);
+
+        // Log patient retrieval result
+        if (patient == null)
+        {
+            Console.WriteLine($"SSN {ssn} not found.");
+            return NotFound("SSN not found.");
+        }
+
+        Console.WriteLine($"SSN {ssn} is valid.");
+        return Ok("SSN is valid.");
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> AddPatient([FromBody] Patient patient)
     {

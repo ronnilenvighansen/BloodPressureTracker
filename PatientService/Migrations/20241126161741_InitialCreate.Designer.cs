@@ -10,7 +10,7 @@ using PatientService.Data;
 namespace PatientService.Migrations
 {
     [DbContext(typeof(PatientDbContext))]
-    [Migration("20241125203402_InitialCreate")]
+    [Migration("20241126161741_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

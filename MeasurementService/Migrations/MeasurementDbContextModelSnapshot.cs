@@ -31,6 +31,10 @@ namespace MeasurementService.Migrations
                     b.Property<int>("Diastolic")
                         .HasColumnType("int");
 
+                    b.Property<string>("PatientSSN")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("Seen")
                         .HasColumnType("tinyint(1)");
 

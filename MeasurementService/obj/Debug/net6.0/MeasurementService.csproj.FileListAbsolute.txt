@@ -46,3 +46,4 @@
 /Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/MeasurementService/obj/Debug/net6.0/MeasurementService.pdb
 /Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/MeasurementService/obj/Debug/net6.0/MeasurementService.genruntimeconfig.cache
 /Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/MeasurementService/obj/Debug/net6.0/ref/MeasurementService.dll
+/Users/ronnihansen/Desktop/softwareudvikling/development_of_large_systems/opgaver/hand_in_2/bpt/MeasurementService/bin/Debug/net6.0/Polly.dll

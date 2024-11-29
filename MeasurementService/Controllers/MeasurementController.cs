@@ -1,18 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using MeasurementService.Models;
 using Unleash;
+using MeasurementService.Services;
 
 [ApiController]
 [Route("api/[controller]")]
 public class MeasurementController : ControllerBase
 {
+    private readonly SSNValidationService _ssnValidationService;
     private readonly MeasurementRepository _repository;
     private readonly IUnleash _unleash;
 
-    public MeasurementController(
-        MeasurementRepository repository, 
-        IUnleash unleash)
+    public MeasurementController(SSNValidationService ssnValidationService, MeasurementRepository repository, IUnleash unleash)
     {
+        _ssnValidationService = ssnValidationService;
         _repository = repository;
         _unleash = unleash;
     }
@@ -54,7 +55,17 @@ public class MeasurementController : ControllerBase
             return StatusCode(503, "Feature disabled.");
         }
 
+        // Validate SSN before proceeding
+        var isValidSSN = await _ssnValidationService.ValidateSSNAsync(measurement.PatientSSN);
+        if (!isValidSSN)
+        {
+            return BadRequest("Invalid SSN.");
+        }
+        
+        // Add the measurement to the repository directly
         await _repository.AddMeasurementAsync(measurement);
+
+        // Optionally, you can return the measurement data directly with a 201 Created status
         return CreatedAtAction(nameof(GetMeasurement), new { id = measurement.Id }, measurement);
     }
 

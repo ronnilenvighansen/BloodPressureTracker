@@ -29,6 +29,7 @@ services:
       context: .
       dockerfile: MeasurementService/Dockerfile
     environment:
+      - "PatientService:BaseAddress=http://nginx/patients/"
       - ConnectionStrings__DefaultConnection=Server=measurement-db-master;Database=MeasurementDb;User=root;Password=password
       - UNLEASH_URL=http://unleash:4242/api/
       - UNLEASH_API_TOKEN=default:development.unleash-insecure-api-token
