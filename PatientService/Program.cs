@@ -16,7 +16,7 @@ builder.Services.AddScoped<PatientRepository>();
 
 var unleashUrl = builder.Configuration["UNLEASH_URL"];
 var unleashApiToken = builder.Configuration["UNLEASH_API_TOKEN"];
-
+//
 var settings = new UnleashSettings()
 {
     AppName = "patient-service",
