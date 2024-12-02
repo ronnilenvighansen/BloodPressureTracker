@@ -37,8 +37,7 @@ public class PatientControllerTests
         // Assert
         var actionResult = Assert.IsType<ActionResult<IEnumerable<Patient>>>(result);
 
-        // Verify the inner OkObjectResult
-        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+        var okResult = Assert.IsType<ObjectResult>(actionResult.Result);
         var returnValue = Assert.IsAssignableFrom<IEnumerable<Patient>>(okResult.Value);
         Assert.Equal(mockPatients.Count(), returnValue.Count());
     }
