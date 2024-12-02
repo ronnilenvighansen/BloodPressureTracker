@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PatientService.Models;
 using PatientService.Data;
 
-public class PatientRepository
+public class PatientRepository : IPatientRepository
 {
     private readonly PatientDbContext _context;
 
@@ -11,7 +11,7 @@ public class PatientRepository
         _context = context;
     }
 
-    public virtual async Task<IEnumerable<Patient>> GetAllPatientsAsync()
+    public async Task<IEnumerable<Patient>> GetAllPatientsAsync()
     {
         return await _context.Patients.ToListAsync();
     }
@@ -34,12 +34,12 @@ public class PatientRepository
 
         if (existingPatient != null)
         {
-            _context.Entry(existingPatient).State = EntityState.Detached;
-
+            // Directly use Update() to mark the entity as modified
             _context.Patients.Update(updatedPatient);
             await _context.SaveChangesAsync();
         }
     }
+
 
     public async Task DeletePatientAsync(string ssn)
     {

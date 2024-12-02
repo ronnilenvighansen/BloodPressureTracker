@@ -6,10 +6,10 @@ using Unleash;
 [Route("api/[controller]")]
 public class PatientController : ControllerBase
 {
-    private readonly PatientRepository _repository;
+    private readonly IPatientRepository _repository;
     private readonly IUnleash _unleash;
 
-    public PatientController(PatientRepository repository, IUnleash unleash)
+    public PatientController(IPatientRepository repository, IUnleash unleash)
     {
         _repository = repository;
         _unleash = unleash;

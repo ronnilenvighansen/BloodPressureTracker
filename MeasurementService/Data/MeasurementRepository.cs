@@ -27,21 +27,20 @@ public class MeasurementRepository : IMeasurementRepository
         _context.Measurements.Add(measurement);
         await _context.SaveChangesAsync();
     }
-//check redundancy put method
+
     public async Task UpdateMeasurementAsync(Measurement updatedMeasurement)
     {
-        var existingEntity = _context.ChangeTracker.Entries<Measurement>()
-                                    .FirstOrDefault(e => e.Entity.Id == updatedMeasurement.Id);
-        if (existingEntity != null)
+        var existingMeasurement = await _context.Measurements
+            .FirstOrDefaultAsync(m => m.Id == updatedMeasurement.Id);
+
+        if (existingMeasurement != null)
         {
-            _context.Entry(existingEntity.Entity).State = EntityState.Detached;
+            _context.Measurements.Update(updatedMeasurement);
+
+            await _context.SaveChangesAsync();
         }
-
-        _context.Measurements.Attach(updatedMeasurement);
-        _context.Entry(updatedMeasurement).State = EntityState.Modified;
-
-        await _context.SaveChangesAsync();
     }
+
 
     public async Task DeleteMeasurementAsync(int id)
     {
