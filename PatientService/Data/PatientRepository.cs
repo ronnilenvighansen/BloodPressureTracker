@@ -34,12 +34,12 @@ public class PatientRepository : IPatientRepository
 
         if (existingPatient != null)
         {
-            // Directly use Update() to mark the entity as modified
+            _context.Entry(existingPatient).State = EntityState.Detached;
+
             _context.Patients.Update(updatedPatient);
             await _context.SaveChangesAsync();
         }
     }
-
 
     public async Task DeletePatientAsync(string ssn)
     {

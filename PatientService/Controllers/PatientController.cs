@@ -42,6 +42,11 @@ public class PatientController : ControllerBase
     [HttpGet("validate-ssn/{ssn}")]
     public async Task<IActionResult> ValidateSSN(string ssn)
     {
+        if (!_unleash.IsEnabled("patient-service.validate-ssn"))
+        {
+            return StatusCode(503, "Feature disabled.");
+        }
+        
         Console.WriteLine($"Validating SSN: {ssn}");
 
         var patient = await _repository.GetPatientAsync(ssn);

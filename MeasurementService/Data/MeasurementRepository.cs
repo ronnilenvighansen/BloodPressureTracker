@@ -35,12 +35,13 @@ public class MeasurementRepository : IMeasurementRepository
 
         if (existingMeasurement != null)
         {
+            _context.Entry(existingMeasurement).State = EntityState.Detached;
+
             _context.Measurements.Update(updatedMeasurement);
 
             await _context.SaveChangesAsync();
         }
     }
-
 
     public async Task DeleteMeasurementAsync(int id)
     {
