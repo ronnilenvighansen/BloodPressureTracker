@@ -15,7 +15,6 @@ public class PolicyHandler : DelegatingHandler
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        // Wrap the policies together for execution
         var combinedPolicy = Policy.WrapAsync(_retryPolicy, _timeoutPolicy);
         return await combinedPolicy.ExecuteAsync(() => base.SendAsync(request, cancellationToken));
     }

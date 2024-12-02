@@ -42,13 +42,10 @@ public class PatientController : ControllerBase
     [HttpGet("validate-ssn/{ssn}")]
     public async Task<IActionResult> ValidateSSN(string ssn)
     {
-        // Log input SSN
         Console.WriteLine($"Validating SSN: {ssn}");
 
-        // Check if the SSN exists in the repository
         var patient = await _repository.GetPatientAsync(ssn);
 
-        // Log patient retrieval result
         if (patient == null)
         {
             Console.WriteLine($"SSN {ssn} not found.");

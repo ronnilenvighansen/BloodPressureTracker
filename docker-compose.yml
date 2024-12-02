@@ -64,9 +64,11 @@ services:
     command: >
       --server-id=1
       --log-bin=mysql-bin
+      --binlog-format=ROW
 
-  patient-db-slave:
+  patient-db-slave-1:
     image: mysql:8.0
+    container_name: patient-db-slave-1
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: PatientDb
@@ -81,6 +83,11 @@ services:
     depends_on:
       patient-db-master:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     command: >
       mysqld
       --server-id=2
@@ -89,7 +96,71 @@ services:
       --log-slave-updates
       --read-only=1
     volumes:
-      - patient-db-slave-data:/var/lib/mysql
+      - patient-db-slave-1-data:/var/lib/mysql
+
+  patient-db-slave-2:
+    image: mysql:8.0
+    container_name: patient-db-slave-2
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: PatientDb
+      MYSQL_REPLICATION_USER: repl_user
+      MYSQL_REPLICATION_PASSWORD: repl_password
+      MYSQL_MASTER_HOST: patient-db-master
+      MYSQL_MASTER_USER: repl_user
+      MYSQL_MASTER_PASSWORD: repl_password
+      MYSQL_MASTER_PORT: 3306
+    networks:
+      - backend
+    depends_on:
+      patient-db-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: >
+      mysqld
+      --server-id=3
+      --log-bin=mysql-bin
+      --relay-log=mysql-relay-bin
+      --log-slave-updates
+      --read-only=1
+    volumes:
+      - patient-db-slave-2-data:/var/lib/mysql
+
+  patient-db-slave-3:
+    image: mysql:8.0
+    container_name: patient-db-slave-3
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: PatientDb
+      MYSQL_REPLICATION_USER: repl_user
+      MYSQL_REPLICATION_PASSWORD: repl_password
+      MYSQL_MASTER_HOST: patient-db-master
+      MYSQL_MASTER_USER: repl_user
+      MYSQL_MASTER_PASSWORD: repl_password
+      MYSQL_MASTER_PORT: 3306
+    networks:
+      - backend
+    depends_on:
+      patient-db-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: >
+      mysqld
+      --server-id=4
+      --log-bin=mysql-bin
+      --relay-log=mysql-relay-bin
+      --log-slave-updates
+      --read-only=1
+    volumes:
+      - patient-db-slave-3-data:/var/lib/mysql
   
   measurement-db-master:
     image: mysql:8.0
@@ -112,9 +183,11 @@ services:
     command: >
       --server-id=1
       --log-bin=mysql-bin
+      --binlog-format=ROW
 
-  measurement-db-slave:
+  measurement-db-slave-1:
     image: mysql:8.0
+    container_name: measurement-db-slave-1
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: MeasurementDb
@@ -129,6 +202,11 @@ services:
     depends_on:
       measurement-db-master:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     command: >
       mysqld
       --server-id=2
@@ -137,7 +215,71 @@ services:
       --log-slave-updates
       --read-only=1
     volumes:
-      - measurement-db-slave-data:/var/lib/mysql
+      - measurement-db-slave-1-data:/var/lib/mysql
+    
+  measurement-db-slave-2:
+    image: mysql:8.0
+    container_name: measurement-db-slave-2
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: MeasurementDb
+      MYSQL_REPLICATION_USER: repl_user
+      MYSQL_REPLICATION_PASSWORD: repl_password
+      MYSQL_MASTER_HOST: measurement-db-master
+      MYSQL_MASTER_USER: repl_user
+      MYSQL_MASTER_PASSWORD: repl_password
+      MYSQL_MASTER_PORT: 3306
+    networks:
+      - backend
+    depends_on:
+      measurement-db-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: >
+      mysqld
+      --server-id=3
+      --log-bin=mysql-bin
+      --relay-log=mysql-relay-bin
+      --log-slave-updates
+      --read-only=1
+    volumes:
+      - measurement-db-slave-2-data:/var/lib/mysql
+  
+  measurement-db-slave-3:
+    image: mysql:8.0
+    container_name: measurement-db-slave-3
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: MeasurementDb
+      MYSQL_REPLICATION_USER: repl_user
+      MYSQL_REPLICATION_PASSWORD: repl_password
+      MYSQL_MASTER_HOST: measurement-db-master
+      MYSQL_MASTER_USER: repl_user
+      MYSQL_MASTER_PASSWORD: repl_password
+      MYSQL_MASTER_PORT: 3306
+    networks:
+      - backend
+    depends_on:
+      measurement-db-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: >
+      mysqld
+      --server-id=4
+      --log-bin=mysql-bin
+      --relay-log=mysql-relay-bin
+      --log-slave-updates
+      --read-only=1
+    volumes:
+      - measurement-db-slave-3-data:/var/lib/mysql
   
   nginx:
     image: nginx:latest
@@ -191,9 +333,13 @@ services:
 
 volumes:
   patient-db-master-data:
-  patient-db-slave-data:
+  patient-db-slave-1-data:
+  patient-db-slave-2-data:
+  patient-db-slave-3-data:
   measurement-db-master-data:
-  measurement-db-slave-data:
+  measurement-db-slave-1-data:
+  measurement-db-slave-2-data:
+  measurement-db-slave-3-data:
   unleash-db-data:
 
 networks:

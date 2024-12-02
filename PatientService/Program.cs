@@ -41,7 +41,6 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Check if migrations are needed
         if (context.Database.GetPendingMigrations().Any())
         {
             context.Database.Migrate();

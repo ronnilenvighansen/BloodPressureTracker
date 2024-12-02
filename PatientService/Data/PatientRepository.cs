@@ -11,7 +11,7 @@ public class PatientRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Patient>> GetAllPatientsAsync()
+    public virtual async Task<IEnumerable<Patient>> GetAllPatientsAsync()
     {
         return await _context.Patients.ToListAsync();
     }

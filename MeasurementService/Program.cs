@@ -6,18 +6,15 @@ using MeasurementService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Define the retry and timeout policies
 var retryPolicy = Policy.Handle<HttpRequestException>()
     .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
     .RetryAsync(3);
 
 var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(10));
 
-// Register the policies in the DI container
 builder.Services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(retryPolicy);
 builder.Services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(timeoutPolicy);
 
-// Register HttpClient with custom PolicyHandler
 builder.Services.AddHttpClient<SSNValidationService>(client =>
 {
     var baseAddress = builder.Configuration["PatientService:BaseAddress"];
@@ -29,7 +26,6 @@ builder.Services.AddHttpClient<SSNValidationService>(client =>
     var originalRetryPolicy = sp.GetRequiredService<IAsyncPolicy<HttpResponseMessage>>();
     var timeoutPolicy = sp.GetRequiredService<IAsyncPolicy<HttpResponseMessage>>();
 
-    // Create a logging-enhanced retry policy
     var loggingRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
         .RetryAsync(3, onRetry: (outcome, retryNumber, context) =>
         {
@@ -38,10 +34,8 @@ builder.Services.AddHttpClient<SSNValidationService>(client =>
                               $"Exception: {outcome.Exception?.Message}");
         });
 
-    // Combine the original retry policy with the logging retry policy
     var combinedRetryPolicy = originalRetryPolicy.WrapAsync(loggingRetryPolicy);
 
-    // Return the PolicyHandler with the combined retry and timeout policies
     return new PolicyHandler(combinedRetryPolicy, timeoutPolicy);
 });
 
@@ -53,7 +47,7 @@ builder.Services.AddDbContext<MeasurementDbContext>(options =>
     )
 );
 
-builder.Services.AddScoped<MeasurementRepository>();
+builder.Services.AddScoped<IMeasurementRepository, MeasurementRepository>();
 
 var unleashUrl = builder.Configuration["UNLEASH_URL"];
 var unleashApiToken = builder.Configuration["UNLEASH_API_TOKEN"];
@@ -82,7 +76,6 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Check if migrations are needed
         if (context.Database.GetPendingMigrations().Any())
         {
             context.Database.Migrate();

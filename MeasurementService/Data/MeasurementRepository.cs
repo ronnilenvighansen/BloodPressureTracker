@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MeasurementService.Data;
 using MeasurementService.Models;
 
-public class MeasurementRepository
+public class MeasurementRepository : IMeasurementRepository
 {
     private readonly MeasurementDbContext _context;
 
